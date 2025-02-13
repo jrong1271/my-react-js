@@ -49,7 +49,10 @@ function App() {
             ...prev
         ]);
     }, []);
-
+    const handleDelete = useCallback((id : string) => {
+        setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    }, []);
+    
     const handleChange = useCallback((id : string, checked : boolean) => {
         // handle the check/uncheck logic
         if (checked) {
@@ -76,7 +79,7 @@ function App() {
             <Header>Todo List</Header>
             <AddInput onAdd={addTodo}/>
             <TodoList>
-                {todos.map((todo) => (<TodoItem {...todo} onChange={handleChange}/>))}
+                {todos.map((todo) => (<TodoItem {...todo} onChange={handleChange} onDelete={handleDelete}/>))}
             </TodoList>
         </Wrapper>
     );
