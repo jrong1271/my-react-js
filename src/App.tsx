@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useCallback, useState } from "react";
+import { v4 as uuid } from "uuid";
+import styled from "@emotion/styled";
+import { AddInput } from "./components/AddInput.tsx";
+import { TodoItem } from "./components/TodoItem.tsx";
+import { TodoList } from "./components/TodoList.tsx";
+import { Header } from "./components/Header.tsx";
+
+const Wrapper = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: 300,
+});
+
+/**
+* This is the initial todo state.
+* Instead of loading this data on every reload,
+* we should save the todo state to local storage,
+* and restore on page load. This will give us
+* persistent storage.
+*/
+const initialData: Todo[] = [
+  {
+    id: uuid(),
+    label: "Buy groceries",
+    checked: false,
+  },
+  {
+    id: uuid(),
+    label: "Reboot computer",
+    checked: false,
+  },
+  {
+    id: uuid(),
+    label: "Ace CoderPad interview",
+    checked: true,
+  },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState<Todo[]>(initialData);
+
+  const addTodo = useCallback((label: string) => {
+    setTodos((prev) => [
+      {
+        id: uuid(),
+        label,
+        checked: false,
+      },
+      ...prev,
+    ]);
+  }, []);
+
+  const handleChange = useCallback((id: string, checked: boolean) => {
+    // handle the check/uncheck logic
+    setTodos(todos => todos.map((todo) => {
+      return todo.id === id ? { ...todo, checked } : todo;
+    }));
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Wrapper>
+      <Header>Todo List</Header>
+      <AddInput onAdd={addTodo} />
+      <TodoList>
+        {todos.map((todo) => (
+          <TodoItem {...todo} onChange={handleChange} />
+        ))}
+      </TodoList>
+    </Wrapper>
+  );
 }
 
-export default App
+export default App;
