@@ -1,50 +1,23 @@
-# React + TypeScript + Vite
+# React + Todo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a coderpad exercise.
+***React Todo List***
+The goal of this exercise is to create a working todo list with persistent data storage.
 
-Currently, two official plugins are available:
+To start with, we have a styled todo list that supports adding todos. We also have premade styles for completed todo items. Although there’s no working mechanism for “completing” a todo.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Requirements
+- [x] Clicking on a todo item should toggle the “checked” state.
 ```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+    setTodos(todos => todos.map((todo) => {
+      return todo.id === id ? { ...todo, checked } : todo;
+    }));
 ```
+- [ ] The todo list state should be saved and loaded from local storage.
+- [ ] Checked items should sink to the bottom of the list automatically
+
+***Stretch Goals***
+- [ ] Allow todos to be deleted. When you hover your mouse over a todo, an X should appear on the far right side, clicking the X should remove it from the list.
+- [ ] Add hidden timestamps to todos (created_at, completed_at), these will be used for sorting
+The active todos should be sorted by created_at descending
+The completed todos should be sorted by completed_at ascending
