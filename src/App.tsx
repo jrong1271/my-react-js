@@ -17,9 +17,8 @@ const Wrapper = styled.div({display: "flex", flexDirection: "column", alignItems
 */
 
 function App() {
-
-    const storeTodos = JSON.parse(localStorage.getItem("todos") ?? '');
-    if (!storeTodos) {
+    const storeTodos = JSON.parse(localStorage.getItem("todos") || "[]");
+    if (storeTodos.length <= 0) {
         localStorage.setItem("todos", JSON.stringify([
             {
                 id: uuid(),
@@ -52,7 +51,7 @@ function App() {
     const handleDelete = useCallback((id : string) => {
         setTodos((prev) => prev.filter((todo) => todo.id !== id));
     }, []);
-    
+
     const handleChange = useCallback((id : string, checked : boolean) => {
         // handle the check/uncheck logic
         if (checked) {
