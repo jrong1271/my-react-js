@@ -14,7 +14,7 @@ Requirements
 - [x] The todo list state should be saved and loaded from local storage.
 ```
 const storeTodos = JSON.parse(localStorage.getItem("todos")??'');
-    if (!storeTodos) {
+  if (!storeTodos) {
     localStorage.setItem("todos", JSON.stringify([
       {
         id: uuid(),
