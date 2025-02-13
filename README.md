@@ -11,8 +11,38 @@ Requirements
       return todo.id === id ? { ...todo, checked } : todo;
     }));
 ```
-- [ ] The todo list state should be saved and loaded from local storage.
-- [ ] Checked items should sink to the bottom of the list automatically
+- [x] The todo list state should be saved and loaded from local storage.
+```
+const storeTodos = JSON.parse(localStorage.getItem("todos")??'');
+  if (!storeTodos) {
+    localStorage.setItem("todos", JSON.stringify([
+      {
+        id: uuid(),
+        label: "Buy groceries",
+        checked: false,
+      },
+      {
+        id: uuid(),
+        label: "Reboot computer",
+        checked: false,
+      },
+      {
+        id: uuid(),
+        label: "Ace CoderPad interview",
+        checked: true,
+      },
+    ]));
+  }
+  const [todos, setTodos] = useState<Todo[]>(storeTodos);
+```
+- [x] Checked items should sink to the bottom of the list automatically
+```
+    if (checked){
+      const index = todos.findIndex((todo) => todo.id === id);
+      const [todoToMove] = todos.splice(index, 1);
+      todos.push(todoToMove);
+    }
+```
 
 ***Stretch Goals***
 - [ ] Allow todos to be deleted. When you hover your mouse over a todo, an X should appear on the far right side, clicking the X should remove it from the list.
